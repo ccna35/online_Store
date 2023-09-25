@@ -27,7 +27,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://ecommerce-client-rho.vercel.app",
+      "https://ecommerce-client-react-seven.vercel.app",
     ],
     credentials: true,
   })
