@@ -9,9 +9,7 @@ const {
 } = require('./operations');
 
 exports.deleteProduct       = deleteOne(Product);
-exports.get_product_ById    = getById(Product);
 exports.update_product_ById = updateById(Product);
-
 
 exports.addProduct          = asyncHandler(async(req, res)=>{
   let product = await  Product.findOne({name : req.body.name});
@@ -42,7 +40,13 @@ exports.get_all_products    =  asyncHandler(async(req, res)=>{
 
 });
 
+exports.get_product_ById    =  asyncHandler(async(req, res)=>{
+  await Product.findById(req.params._id)
+              .populate('reviews')
+              .then((products)=>{res.json({count : products.length, products})})
+              .catch(err =>{res.status(500).json(err)})
 
+});
 // @desc create new review
 // @route POST api/product/:id/review
 exports.createProductReview = asyncHandler(async (req, res) => {
@@ -77,57 +81,19 @@ exports.createProductReview = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc Search )
-// @route POST api/product/search/:id
-//exports.get_product_ByKey = get_ByKey(Product);
-exports.get_product_ByName = asyncHandler(async(req, res)=>{
-  let data = await Product.find({name:{ $regex : req.params.key}})
-  if( data.length > 0) {res.send(data)}
-  else{ 
-      res.status(400).json({
-          "message": "item not found!",
-          "status code": 400})      
-        }
+// @desc filtration
+// @route GET api/product/filter?name=&brand=&category=&price=
+exports.filter = asyncHandler(async (req, res) => {
+  let queryRegx = req.query;
+  const data = await Product.find({
+   $and: [
+    { name   : { $regex: queryRegx.name  }},
+    { price  : { $lte : queryRegx.price  }},
+    { brand  : { $regex: queryRegx.brand }},
+    { category:{ $regex: queryRegx.category }}
+  ]
+  });
+  if(data.length == 0) return res.status(404).json({message: "Not found!"});
+  res.status(200).json({data});
+
 });
-
-exports.get_product_ByCategory =asyncHandler(async(req, res)=>{
-  
-      let data = await Product.find({category:{ $regex : req.params.key}})
-      if( data.length > 0) {res.send(data)}
-      return res.status(404).json({
-              "message": "item not found!",
-              "status code": 404});        
-});
-
-exports.get_product_ByBrand =  asyncHandler(async(req, res)=>{
-  let data = await Product.find({brand:{ $regex : req.params.key}})
-  if( data.length > 0) {res.send(data)}
-  res.status(404).json({
-          "message": "item not found!",
-          "status code": 404})              
-});  
-
-exports.get_product_ByPrice = asyncHandler(async(req, res)=>{
-  try{
-  let data = await Product.find({ price : {$lte : req.params.key} })
-  if( data.length > 0) {res.send(data)}
-  res.status(404).json({
-          "message": "item not found!",
-          "status code": 404})        
-      }catch(err){
-          console.log(err);
-          res.status(500).json({
-            message: "Internal Server Error!",
-          });
-        }
-});
-
-exports.get_product_ByRating = asyncHandler(async(req, res)=>{
-  let data = await Product.find({rating : {$gte : req.params.key} })
-  if( data.length > 0) {res.send(data)}
-  res.status(404).json({
-          "message": "item not found!",
-          "status code": 404}) 
-});          
-
-
