@@ -28,7 +28,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://127.0.0.1:5174",
+      "https://ecommerce-client-react-seven.vercel.app",
+    ],
     credentials: true,
   })
 );
