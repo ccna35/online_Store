@@ -7,8 +7,8 @@ const {verifyToken, isAdmin} = require('../util/token');
 router.get("/",      brandController.get_all_brands);
 router.get("/:id",      brandController.get_brand_ById);
 
-router.use(verifyToken);    
-router.use(isAdmin);    
+// router.use(verifyToken);    
+// router.use(isAdmin);    
 
 router.post("/",     brandController.add_brand);
 router.delete("/:id", brandController.delete_brand);

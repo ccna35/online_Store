@@ -1,23 +1,23 @@
-const express = require('express')
-const router = express.Router()
-const controller = require('../controllers/productCtr')
-const {verifyToken, isAdmin} = require('../util/token');
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/productCtr");
+const { verifyToken, isAdmin } = require("../util/token");
 
-router.get("/",            controller.get_all_products);
-router.get("/:id",         controller.get_product_ById);
-router.get("/search/query?",  controller.filter);
+router.get("/", controller.get_all_products);
+router.get("/:id", controller.get_product_ById);
+router.get("/search/query?", controller.filter);
 
-router.get("/all/reviews",  controller.getReviews);
+router.get("/all/reviews", controller.getReviews);
 
-router.use(verifyToken);    
+// router.use(verifyToken);
 
-router.post("/:id/review",  controller.createProductReview);
+router.post("/:id/review", controller.createProductReview);
 
-router.use(isAdmin);    
+// router.use(isAdmin);
 
 //@desc Admin Ops
-router.post("/",      controller.addProduct);
-router.put("/:id",    controller.update_product_ById);
+router.post("/", controller.addProduct);
+router.put("/:id", controller.update_product_ById);
 router.delete("/:id", controller.deleteProduct);
 
-module.exports = router ;
+module.exports = router;
