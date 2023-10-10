@@ -53,8 +53,9 @@ exports.login = asyncHandler(async (req, res) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: true,
-    // secure: process.env.NODE_ENV != "development",
-    sameSite: "strict",
+    sameSite: none,
+    // secure: process.env.NODE_ENV !== "development", // Use secure cookies in production
+    // sameSite: "strict", // Prevent CSRF attacks
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   user.confirmPassword = undefined;
