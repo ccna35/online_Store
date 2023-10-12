@@ -22,9 +22,9 @@ router.get("/wishlist", userController.getWishlist);
 // @des Admin operations
 // router.use(isAdmin);
 
-router.get("/users", userController.getAllUsers);
-router.delete("/:id", userController.DeleteOne);
-router.get("/search/:key", userController.searchUser);
-router.patch("/role/:id", userController.role);
+router.get("/users", verifyToken, isAdmin, userController.getAllUsers);
+router.delete("/:id", verifyToken, isAdmin, userController.DeleteOne);
+router.get("/search/:key", verifyToken, isAdmin, userController.searchUser);
+router.patch("/role/:id", verifyToken, isAdmin, userController.role);
 
 module.exports = router;
