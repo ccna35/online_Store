@@ -29,7 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "https://ecommerce-client-react-u0sc.onrender.com",
       "https://ecommerce-client-react-seven.vercel.app",
       "http://localhost:5174",
       "http://localhost:5173",
