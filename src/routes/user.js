@@ -20,7 +20,7 @@ router.patch("/wishlist", userController.wishlist);
 router.get("/wishlist", userController.getWishlist);
 
 // @des Admin operations
-// router.use(isAdmin);
+router.use(isAdmin);
 
 router.get("/users", verifyToken, isAdmin, userController.getAllUsers);
 router.delete("/:id", verifyToken, isAdmin, userController.DeleteOne);

@@ -9,11 +9,11 @@ router.get("/search/query?", controller.filter);
 
 router.get("/all/reviews", controller.getReviews);
 
-// router.use(verifyToken);
+router.use(verifyToken);
 
 router.post("/:id/review", controller.createProductReview);
 
-// router.use(isAdmin);
+router.use(isAdmin);
 
 //@desc Admin Ops
 router.post("/", controller.addProduct);
