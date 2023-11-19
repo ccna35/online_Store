@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const morgan = require("morgan");
 
 const userRouter = require("./routes/user");
 const productsRouter = require("./routes/product");
@@ -22,6 +23,7 @@ mongoose
     console.log(err);
   });
 
+app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
